@@ -1,0 +1,18 @@
+{
+  "name": "live-stream-webrtc",
+  "version": "1.0.0",
+  "description": "webrtc",
+  "main": "app.js",
+  "author": "akki",
+  "engines": {
+    "node": "v7.4.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.14.1",
+    "open": "0.0.5",
+    "socket.io": "1.3.4"
+  }
+}
