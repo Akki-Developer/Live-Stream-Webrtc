@@ -29,7 +29,7 @@ let handleJoinConversationClick = () => {
 //Open peer connection successfully: show friend
 window.onFriendCallback = (socketId, stream) => {
   let friend = friends.filter(friend => friend.socketId == socketId)[0];
-  console.log("OnFriendCallback: ", friends);
+  // console.log("OnFriendCallback: ", friends);
   let thumbnailElement = document.createElement("div");
   thumbnailElement.className = "video-thumbnail";
   thumbnailElement.style = "width: 30%";

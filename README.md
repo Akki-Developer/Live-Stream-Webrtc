@@ -1,3 +1,4 @@
-Commands for setup and use
+# Get started
+
 1.  `npm install`
 2.  `node app.js`

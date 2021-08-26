@@ -25,7 +25,7 @@ var templateList = {};
 //------------------------------------------------------------------------------
 //  Serving static files
 app.get('/', function(req, res) {
-  console.log('get /');
+  // console.log('get /');
   res.sendFile(__dirname + '/index.html');
 });
 
@@ -39,10 +39,10 @@ app.use(
 );
 
 server.listen(serverPort, function() {
-  console.log('Rewebrtc-server is up and running at %s port', serverPort);
-  if (isLocal) {
-    open('https://localhost:' + serverPort);
-  }
+  console.log('rtc-server is running at https://localhost: %s port', serverPort);
+  // if (isLocal) {
+    // open(serverPort);
+  // }
 });
 
 function socketIdsInRoom(roomId) {
@@ -62,10 +62,10 @@ function findParticipant(socketId) {
   for (let roomId in roomList) {
     for (let i = 0; i < roomList[roomId].participant.length; i++) {
       if (roomList[roomId].participant[i].socketId == socketId) {
-        console.log(
-          'roomList[roomId].participant[i]: ',
-          roomList[roomId].participant[i]
-        );
+        // console.log(
+        //   'roomList[roomId].participant[i]: ',
+        //   roomList[roomId].participant[i]
+        // );
         return roomList[roomId].participant[i];
       }
     }
@@ -119,7 +119,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('join-server', function(joinData, callback) {
-    console.log('join-server ', joinData);
+    // console.log('join-server ', joinData);
     //Join room
     let roomId = joinData.roomId;
     let displayName = joinData.displayName;
@@ -192,20 +192,20 @@ io.on('connection', function(socket) {
   });
 
   socket.on('exchange-server', function(data) {
-    console.log('exchange', data);
+    // console.log('exchange', data);
     data.from = socket.id;
     var to = io.sockets.connected[data.to];
     to.emit('exchange-client', data);
   });
 
   socket.on('count-server', function(roomId, callback) {
-    console.log('count-server ', roomId);
+    // console.log('count-server ', roomId);
     var socketIds = socketIdsInRoom(roomId);
     callback(socketIds.length);
   });
 
   socket.on('list-server', function(data, callback) {
-    console.log(roomList);
+    // console.log(roomList);
     callback(roomList);
   });
 
