@@ -32,7 +32,7 @@ function createPeerConnection(friend, isOffer) {
   peerConnections[socketId] = retVal;
 
   retVal.onicecandidate = function(event) {
-    console.log('onicecandidate', event);
+    // console.log('onicecandidate', event);
     if (event.candidate) {
       socket.emit('exchange-server', {
         to: socketId,
@@ -43,7 +43,7 @@ function createPeerConnection(friend, isOffer) {
 
   function createOffer() {
     retVal.createOffer(function(desc) {
-      console.log('createOffer', desc);
+      // console.log('createOffer', desc);
       retVal.setLocalDescription(
         desc,
         function() {
@@ -59,32 +59,32 @@ function createPeerConnection(friend, isOffer) {
   }
 
   retVal.onnegotiationneeded = function() {
-    console.log('onnegotiationneeded');
+    // console.log('onnegotiationneeded');
     if (isOffer) {
       createOffer();
     }
   };
 
   retVal.oniceconnectionstatechange = function(event) {
-    console.log('oniceconnectionstatechange', event);
+    // console.log('oniceconnectionstatechange', event);
     if (event.target.iceConnectionState === 'connected' && isOffer) {
       createDataChannel(isOffer, null);
     }
   };
 
   retVal.onsignalingstatechange = function(event) {
-    console.log('onsignalingstatechange', event);
+    // console.log('onsignalingstatechange', event);
   };
 
   retVal.onaddstream = function(event) {
-    console.log('onaddstream', event);
+    // console.log('onaddstream', event);
     if (window.onFriendCallback !== null) {
       window.onFriendCallback(socketId, event.stream);
     }
   };
 
   retVal.ondatachannel = function(event) {
-    console.log('ondatachannel', event);
+    // console.log('ondatachannel', event);
     createDataChannel(isOffer, event);
   };
 
@@ -102,22 +102,22 @@ function createPeerConnection(friend, isOffer) {
     }
 
     dataChannel.onerror = function(error) {
-      console.log('dataChannel.onerror', error);
+      // console.log('dataChannel.onerror', error);
     };
 
     dataChannel.onmessage = function(event) {
-      console.log('dataChannel.onmessage:', event.data);
+      // console.log('dataChannel.onmessage:', event.data);
       if (window.onDataChannelMessage !== null) {
         window.onDataChannelMessage(JSON.parse(event.data));
       }
     };
 
     dataChannel.onopen = function() {
-      console.log('dataChannel.onopen');
+      // console.log('dataChannel.onopen');
     };
 
     dataChannel.onclose = function() {
-      console.log('dataChannel.onclose');
+      // console.log('dataChannel.onclose');
     };
 
     retVal.textDataChannel = dataChannel;
@@ -143,17 +143,17 @@ function exchange(data) {
   }
 
   if (data.sdp) {
-    console.log('exchange sdp', data);
+    // console.log('exchange sdp', data);
     pc.setRemoteDescription(
       new RTCSessionDescription(data.sdp),
       function() {
         if (pc.remoteDescription.type == 'offer')
           pc.createAnswer(function(desc) {
-            console.log('createAnswer', desc);
+            // console.log('createAnswer', desc);
             pc.setLocalDescription(
               desc,
               function() {
-                console.log('setLocalDescription', pc.localDescription);
+                // console.log('setLocalDescription', pc.localDescription);
                 socket.emit('exchange-server', {
                   to: fromId,
                   sdp: pc.localDescription
@@ -166,7 +166,7 @@ function exchange(data) {
       logError
     );
   } else {
-    console.log('exchange candidate', data);
+    // console.log('exchange candidate', data);
     pc.addIceCandidate(new RTCIceCandidate(data.candidate));
   }
 }
@@ -204,23 +204,23 @@ socket.on('join-client', function(friend) {
 });
 
 socket.on('newroom-client', function(room) {
-  console.log('New room: ', room);
+  // console.log('New room: ', room);
 });
 
 function logError(error) {
-  console.log('logError', error);
+  // console.log('logError', error);
 }
 
 function getRoomList(callback) {
   socket.emit('list-server', {}, data => {
-    console.log('Get list: ', data);
+    // console.log('Get list: ', data);
     callback(data);
   });
 }
 
 function countFriends(roomId, callback) {
   socket.emit('count-server', roomId, count => {
-    console.log('Count friends result: ', count);
+    // console.log('Count friends result: ', count);
     callback(count);
   });
 }
@@ -246,11 +246,11 @@ function broadcastMessage(message) {
 }
 
 socket.on('template-client', function(data) {
-  console.log(data);
+  // console.log(data);
 });
 
 function getTemplate() {
-  console.log('getTemplate');
+  // console.log('getTemplate');
   let request = {
     action: 'get',
     template: {
@@ -267,7 +267,7 @@ function getTemplate() {
 }
 
 function putTemplate() {
-  console.log('putTemplate');
+  // console.log('putTemplate');
   let request = {
     action: 'put',
     template: {
