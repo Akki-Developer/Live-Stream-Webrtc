@@ -40,9 +40,9 @@ app.use(
 
 server.listen(serverPort, function() {
   console.log('rtc-server is running at https://localhost: %s port', serverPort);
-  // if (isLocal) {
-    // open(serverPort);
-  // }
+  if (isLocal) {
+    open('https://mobikul-saas.webkul.com:'+serverPort);
+  }
 });
 
 function socketIdsInRoom(roomId) {
